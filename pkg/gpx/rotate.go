@@ -1,4 +1,4 @@
-package gpxrotate
+package gpx
 
 import "github.com/tkrajina/gpxgo/gpx"
 
