@@ -1,19 +1,19 @@
-package gpxrotate_test
+package gpx_test
 
 import (
 	"testing"
 
-	"github.com/glynternet/gpx-rotate/pkg/gpxrotate"
+	"github.com/glynternet/gpx/pkg/gpx"
 	"github.com/stretchr/testify/assert"
-	"github.com/tkrajina/gpxgo/gpx"
+	gpxgo "github.com/tkrajina/gpxgo/gpx"
 )
 
 func TestRotate(t *testing.T) {
 	for _, tc := range []struct {
 		name     string
-		input    []gpx.GPXPoint
+		input    []gpxgo.GPXPoint
 		n        int
-		expected []gpx.GPXPoint
+		expected []gpxgo.GPXPoint
 	}{{
 		name: "no input, yields no output",
 	}, {
@@ -47,20 +47,20 @@ func TestRotate(t *testing.T) {
 		expected: points("b", "c", "a"),
 	}} {
 		t.Run(tc.name, func(t *testing.T) {
-			assert.Equal(t, diffable(tc.expected), diffable(gpxrotate.Rotated(tc.input, tc.n)))
+			assert.Equal(t, diffable(tc.expected), diffable(gpx.Rotated(tc.input, tc.n)))
 		})
 	}
 }
 
-func points(names ...string) []gpx.GPXPoint {
-	ps := make([]gpx.GPXPoint, len(names))
+func points(names ...string) []gpxgo.GPXPoint {
+	ps := make([]gpxgo.GPXPoint, len(names))
 	for i, name := range names {
-		ps[i] = gpx.GPXPoint{Name: name}
+		ps[i] = gpxgo.GPXPoint{Name: name}
 	}
 	return ps
 }
 
-func diffable(ps []gpx.GPXPoint) []string {
+func diffable(ps []gpxgo.GPXPoint) []string {
 	vs := make([]string, len(ps))
 	for i, p := range ps {
 		vs[i] = p.Name

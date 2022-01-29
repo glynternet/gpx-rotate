@@ -1,4 +1,4 @@
-module github.com/glynternet/gpx-rotate
+module github.com/glynternet/gpx
 
 go 1.17
 
