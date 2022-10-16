@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/glynternet/pkg/log"
 
@@ -28,7 +29,7 @@ func splitCmd(out io.Writer, logger log.Logger) *cobra.Command {
 			}
 
 			for _, gpx := range gpx.Split(*content) {
-				path := filepath.Join(".", gpx.Name+".gpx")
+				path := filepath.Join(".", strings.ReplaceAll(gpx.Name, string([]byte{os.PathSeparator}), `-`)+".gpx")
 				if err := writeSingleFile(path, gpx); err != nil {
 					return fmt.Errorf("writing gpx to file: %w", err)
 				}
