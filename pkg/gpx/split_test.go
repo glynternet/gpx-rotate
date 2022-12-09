@@ -9,22 +9,22 @@ import (
 )
 
 func TestSplit(t *testing.T) {
-	t.Run("zero tracks returns slice of same file", func(t *testing.T) {
+	t.Run("zero tracks returns empty slice", func(t *testing.T) {
 		in := gpxgo.GPX{
 			Name:   "foo",
 			Tracks: nil,
 		}
 		out := gpx.Split(in)
-		assert.Equal(t, []gpxgo.GPX{in}, out)
+		assert.Equal(t, []gpxgo.GPX(nil), out)
 	})
 
 	t.Run("single track returns slice of same file", func(t *testing.T) {
 		in := gpxgo.GPX{
 			Name:   "foo",
-			Tracks: []gpxgo.GPXTrack{{}},
+			Tracks: []gpxgo.GPXTrack{{Name: "bar"}},
 		}
 		out := gpx.Split(in)
-		assert.Equal(t, []gpxgo.GPX{in}, out)
+		assert.Equal(t, []gpxgo.GPX{{Name: "bar", Tracks: []gpxgo.GPXTrack{{Name: "bar"}}}}, out)
 	})
 
 	t.Run("multiple tracks returns slice of individual tracks parent GPX named to match track", func(t *testing.T) {

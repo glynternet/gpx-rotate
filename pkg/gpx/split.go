@@ -7,10 +7,6 @@ import (
 )
 
 func Split(gpx gpxgo.GPX) []gpxgo.GPX {
-	tracksCount := len(gpx.Tracks)
-	if tracksCount == 0 || tracksCount == 1 {
-		return []gpxgo.GPX{gpx}
-	}
 	var split []gpxgo.GPX
 	for i, track := range gpx.Tracks {
 		c := gpx

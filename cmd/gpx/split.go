@@ -28,6 +28,11 @@ func splitCmd(out io.Writer, logger log.Logger) *cobra.Command {
 				return err
 			}
 
+			if len(content.Tracks) == 0 {
+				_ = log.Info(logger, log.Message("GPX file has no tracks, nothing to do"))
+				return nil
+			}
+
 			for _, gpx := range gpx.Split(*content) {
 				path := filepath.Join(".", strings.ReplaceAll(gpx.Name, string([]byte{os.PathSeparator}), `-`)+".gpx")
 				if err := writeSingleFile(path, gpx); err != nil {
