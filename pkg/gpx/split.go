@@ -1,6 +1,8 @@
 package gpx
 
 import (
+	"fmt"
+
 	gpxgo "github.com/tkrajina/gpxgo/gpx"
 )
 
@@ -10,9 +12,19 @@ func Split(gpx gpxgo.GPX) []gpxgo.GPX {
 		return []gpxgo.GPX{gpx}
 	}
 	var split []gpxgo.GPX
-	for _, track := range gpx.Tracks {
+	for i, track := range gpx.Tracks {
 		c := gpx
-		c.Name = track.Name
+		if track.Name != "" {
+			c.Name = track.Name
+		} else {
+			gpxName := gpx.Name
+			if gpxName == "" {
+				gpxName = "unknown"
+			}
+			name := fmt.Sprintf("%s-track-%d", gpxName, i+1)
+			c.Name = name
+			track.Name = name
+		}
 		// remove all extensions, they sometimes cause import issues and have never been useful
 		track.Extensions = gpxgo.Extension{}
 		for i := range track.Segments {

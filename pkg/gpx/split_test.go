@@ -43,4 +43,37 @@ func TestSplit(t *testing.T) {
 			},
 		}, out)
 	})
+
+	t.Run("tracks with missing names are given name based on parent file name with track index", func(t *testing.T) {
+		in := gpxgo.GPX{
+			Name:   "foo",
+			Tracks: []gpxgo.GPXTrack{{}, {}},
+		}
+		out := gpx.Split(in)
+		assert.Equal(t, []gpxgo.GPX{
+			{
+				Name:   "foo-track-1",
+				Tracks: []gpxgo.GPXTrack{{Name: "foo-track-1"}},
+			}, {
+				Name:   "foo-track-2",
+				Tracks: []gpxgo.GPXTrack{{Name: "foo-track-2"}},
+			},
+		}, out)
+	})
+
+	t.Run("parent gpx missing name results in \"unknown\" name", func(t *testing.T) {
+		in := gpxgo.GPX{
+			Tracks: []gpxgo.GPXTrack{{}, {}},
+		}
+		out := gpx.Split(in)
+		assert.Equal(t, []gpxgo.GPX{
+			{
+				Name:   "unknown-track-1",
+				Tracks: []gpxgo.GPXTrack{{Name: "unknown-track-1"}},
+			}, {
+				Name:   "unknown-track-2",
+				Tracks: []gpxgo.GPXTrack{{Name: "unknown-track-2"}},
+			},
+		}, out)
+	})
 }
