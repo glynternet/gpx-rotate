@@ -16,9 +16,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func splitCmd(logger log.Logger) *cobra.Command {
+func splitFileCmd(logger log.Logger) *cobra.Command {
 	return &cobra.Command{
-		Use:   "split <gpx-file>",
+		Use:   "split-file <gpx-file>", //TODO(glynternet): is this the right name?
 		Short: "Split a GPX into many files containing a single track each.",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
